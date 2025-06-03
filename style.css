@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+    background-color: #f0f8ff;
+}
+
+.container-logo {
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.15);
+    padding-bottom: 15px;
+
+    .logo {
+        height: 70px;
+    }
+}
+
+.container-informacoes {
+    padding-top: 80px;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+
+    .titulo {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+        padding-bottom: 40px;
+    }
+
+    .text {
+        font-size: 1.125rem;
+        padding-top: 15px;
+        line-height: 25px;
+    }
+}
+
+.title {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.container-info{
+    margin-top: 50px;
+    border: 1px solid black;
+    max-width: 30rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+
+    .info{
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+h1 {
+    color: #333;
+    padding-top: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#nivel {
+    font-size: 48px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#status {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#status.seguro {
+    color: green;
+}
+
+#status.atencao {
+    color: orange;
+}
+
+#status.perigo {
+    color: red;
+}
+
+#alerta-link {
+    font-size: 18px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    text-align: center;
+}
+
+.link {
+  color: blue;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600; 
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: darkblue;
+  text-decoration: none;
+}
+

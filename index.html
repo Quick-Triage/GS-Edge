@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SOS Chuva</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="container-logo">
+    <img src="./src/logo.png" alt="logo do site" class="logo">
+  </div>
+
+  <div class="container-informacoes">
+    <h2 class="titulo">Monitoramento do Nível da Água e Prevenção de Riscos</h2>
+    <p class="text">Este sistema permite acompanhar em tempo real o nível da água do reservatório, ajudando a
+      identificar situações de segurança, atenção e perigo. Ao detectar níveis críticos,
+      o sistema alerta imediatamente para que sejam tomadas medidas preventivas, reduzindo o risco de enchentes e danos.
+    </p>
+
+    <p class="text">Para saber mais sobre como agir em caso de risco de enchente, acesse o site da Defesa Civil, que
+      oferece orientações e dicas importantes para a sua segurança e de sua
+      família.</p>
+  </div>
+
+  <h2 class="title">Monitoramento</h2>
+
+  <div class="container-info">
+
+
+    <div class="info">
+      <h1>Nível de Água</h1>
+      <div id="nivel">--%</div>
+      <div id="status"></div>
+      <div id="alerta"></div>
+    </div>
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js"></script>
+  <script>
+    const client = mqtt.connect('ws://34.10.136.84:9001');
+
+    const nivelEl = document.getElementById('nivel');
+    const statusEl = document.getElementById('status');
+    const alertaEl = document.getElementById('alerta');
+
+    client.on('connect', () => {
+      client.subscribe('nivel/agua');
+    });
+
+    client.on('message', (topic, message) => {
+      if (topic === 'nivel/agua') {
+        const valor = parseInt(message.toString());
+        nivelEl.textContent = valor + '%';
+
+        alertaEl.innerHTML = ''; // limpa mensagem de alerta
+
+        if (valor <= 60) {
+          statusEl.textContent = 'Seguro';
+          statusEl.className = 'seguro';
+        } else if (valor <= 85) {
+          statusEl.textContent = 'Atenção';
+          statusEl.className = 'atencao';
+        } else {
+          statusEl.textContent = 'Perigo';
+          statusEl.className = 'perigo';
+
+          alertaEl.innerHTML = `
+            <a href="https://www.estado.rs.gov.br/saiba-o-que-fazer-em-caso-de-alagamentos-e-inundacoes" 
+              target="_blank" 
+              style="display: block; text-align: center; padding-top: 10px; color: #0079C1; text-decoration: none; cursor: pointer;">
+              Clique aqui para ver medidas de segurança
+            </a>
+          `;
+        }
+      }
+    });
+
+    client.on('error', (err) => {
+      console.error('Erro MQTT:', err);
+      statusEl.textContent = 'Erro de conexão';
+      statusEl.className = '';
+      alertaEl.innerHTML = '';
+      nivelEl.textContent = '--%';
+    });
+  </script>
+</body>
+
+</html>
