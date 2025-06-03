@@ -18,6 +18,7 @@ Este projeto tem como objetivo monitorar o nível de um reservatório de água e
 - Envio de dados via MQTT
 - Página web mostra:
   - Porcentagem do nível
+  - Grafico do nivel da água
   - Estado de segurança: Seguro, Atenção ou Perigo
   - Link com orientações da Defesa Civil em caso de risco
 
