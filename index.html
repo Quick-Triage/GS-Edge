@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="./src/logo-site.png" />
   <title>SOS Chuva</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -29,17 +31,14 @@
   <h2 class="title">Monitoramento</h2>
 
   <div class="container-info">
-
-
     <div class="info">
       <h1>Nível de Água</h1>
       <div id="nivel">--%</div>
       <div id="status"></div>
       <div id="alerta"></div>
+      <canvas id="grafico" width="400" height="200"></canvas>
     </div>
   </div>
-
-
 
   <script src="https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js"></script>
   <script>
@@ -49,6 +48,36 @@
     const statusEl = document.getElementById('status');
     const alertaEl = document.getElementById('alerta');
 
+    const ctx = document.getElementById('grafico').getContext('2d');
+    const dadosHistoricos = [];
+
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Histórico do Nível de Água (%)',
+          data: [],
+          borderColor: '#0079C1',
+          backgroundColor: 'rgba(0, 121, 193, 0.2)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            min: 0,
+            max: 100,
+            title: {
+              display: true,
+              text: 'Porcentagem (%)'
+            }
+          }
+        }
+      }
+    });
+
     client.on('connect', () => {
       client.subscribe('nivel/agua');
     });
@@ -57,8 +86,7 @@
       if (topic === 'nivel/agua') {
         const valor = parseInt(message.toString());
         nivelEl.textContent = valor + '%';
-
-        alertaEl.innerHTML = ''; // limpa mensagem de alerta
+        alertaEl.innerHTML = '';
 
         if (valor <= 60) {
           statusEl.textContent = 'Seguro';
@@ -69,7 +97,6 @@
         } else {
           statusEl.textContent = 'Perigo';
           statusEl.className = 'perigo';
-
           alertaEl.innerHTML = `
             <a href="https://www.estado.rs.gov.br/saiba-o-que-fazer-em-caso-de-alagamentos-e-inundacoes" 
               target="_blank" 
@@ -78,6 +105,15 @@
             </a>
           `;
         }
+
+        dadosHistoricos.push(valor);
+        if (dadosHistoricos.length > 10) {
+          dadosHistoricos.shift();
+        }
+
+        chart.data.labels = dadosHistoricos.map((_, i) => i + 1);
+        chart.data.datasets[0].data = dadosHistoricos;
+        chart.update();
       }
     });
 
