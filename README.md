@@ -5,11 +5,11 @@ Este projeto tem como objetivo monitorar o nível de um reservatório de água e
 
 ## 🔧 Componentes Utilizados
 
-- ESP32 (ou simulado no Wokwi)
+- ESP32/Wokwi
 - Sensor Ultrassônico HC-SR04
 - Servidor MQTT (Mosquitto)
 - HTML + JavaScript (MQTT via WebSockets)
-- CSS (Tailwind ou customizado)
+- CSS
 
 ## 🚀 Funcionalidades
 
