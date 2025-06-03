@@ -70,4 +70,4 @@ Este projeto tem como objetivo monitorar o nível de um reservatório de água e
 
 ## 👨‍💻 Autor
 
-Projeto desenvolvido por [Seu Nome] como parte de estudos de engenharia, com foco em IoT, MQTT e monitoramento ambiental.
+Projeto desenvolvido por Matheus Caposse, Henrique Pacífico e Caio Berardo
